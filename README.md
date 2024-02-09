@@ -7,7 +7,7 @@ written in Rust.
 
 Following is the documentation for
 <abbr title="Another Rock Paper Scissors Game">ARPSG</abbr>
-[v0.1.0](https://github.com/acodili-jg/arpsg/release/tag/v0.1.0):
+[v0.1.0](https://github.com/acodili-jg/arpsg/releases/tag/v0.1.0):
 
 ### Gameplay
 

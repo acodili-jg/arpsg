@@ -16,4 +16,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - a win, draw, or loss message
 
 [unreleased]: https://github.com/acodili-jg/arpsg/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/acodili-jg/arpsg/release/tag/v0.1.0
+[0.1.0]: https://github.com/acodili-jg/arpsg/releases/tag/v0.1.0
