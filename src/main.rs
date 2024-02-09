@@ -10,7 +10,7 @@ fn main() -> std::io::Result<()> {
     let user_wpn = read_weapon()?;
     let opnt_wpn = rand::random();
 
-    match user_wpn.cmp(&opponent_wpn) {
+    match user_wpn.cmp(&opnt_wpn) {
         Ordering::Less => println!("Your {user_wpn} lost to your opponent's {opnt_wpn}!"),
         Ordering::Equal => println!("It's a draw!"),
         Ordering::Greater => println!("Your {user_wpn} won to your opponent's {opnt_wpn}!"),
