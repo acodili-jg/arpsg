@@ -17,3 +17,27 @@ Following is the documentation for
  3. The outputs from `1.` and `2.` are compared to determine a win, draw, or
     loss.
  4. The program terminates.
+
+## Building
+
+Checks the project for mistakes with clippy:
+```sh
+cargo clippy
+```
+
+Create a debug build of the project:
+```sh
+cargo build
+```
+
+Runs tests on the project:
+```sh
+cargo test
+```
+
+Creates and run a debug field of the project:
+```sh
+cargo run
+```
+
+To create and or run a release build, simply add `--release`.
