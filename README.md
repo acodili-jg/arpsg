@@ -25,7 +25,7 @@ Checks the project for mistakes with clippy:
 cargo clippy
 ```
 
-Create a debug build of the project:
+Creates a debug build of the project:
 ```sh
 cargo build
 ```
