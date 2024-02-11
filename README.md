@@ -35,7 +35,7 @@ Runs tests on the project:
 cargo test
 ```
 
-Creates and run a debug field of the project:
+Creates and run a debug build of the project:
 ```sh
 cargo run
 ```
