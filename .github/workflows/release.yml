@@ -124,6 +124,16 @@ jobs:
           # /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.29' not found
           # /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.28' not found
           # error[E0463]: can't find crate for `strum_macros`
+          - platform: { os: x86_64-unknown-freebsd }
+            toolchain: stable
+          - platform: { os: aarch64-unknown-linux-musl }
+            toolchain: stable
+          - platform: { os: arm-unknown-linux-musleabi }
+            toolchain: stable
+          - platform: { os: i686-unknown-linux-musl }
+            toolchain: stable
+          - platform: { os: powerpc64-unknown-linux-gnu }
+            toolchain: stable
           - platform: { os: powerpc64-unknown-linux-gnu }
             toolchain: stable
           - platform: { os: powerpc64le-unknown-linux-gnu }
