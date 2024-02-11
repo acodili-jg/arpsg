@@ -9,9 +9,3 @@ edition = "2021"
 rand = "0.8.5"
 rand_derive2 = "0.1.21"
 strum = { version = "0.26.1", features = ["derive"] }
-
-[lints.clippy]
-pedantic = "warn"
-nursery = "warn"
-unwrap_used = "warn"
-expect_used = "warn"
