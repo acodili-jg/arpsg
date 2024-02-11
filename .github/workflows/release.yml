@@ -120,6 +120,20 @@ jobs:
           - stable
           - beta
           - nightly
+        exclude:
+          # /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.29' not found
+          # /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.28' not found
+          # error[E0463]: can't find crate for `strum_macros`
+          - platform.os: powerpc64-unknown-linux-gnu
+            toolchain: stable
+          - platform.os: powerpc64le-unknown-linux-gnu
+            toolchain: stable
+          - platform.os: riscv64gc-unknown-linux-gnu
+            toolchain: stable
+          - platform.os: s390x-unknown-linux-gnu
+            toolchain: stable
+          - platform.os: sparc64-unknown-linux-gnu
+            toolchain: stable
     steps:
       - uses: actions/checkout@v4
       - name: Cache cargo & target directories
