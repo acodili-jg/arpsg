@@ -1,48 +1,63 @@
+name: build and release
+
 on:
   release:
-    types: [created]
-  push:
+    types: [ created ]
+
+permissions:
+  contents: write
 
 jobs:
-  release:
-    name: release ${{ matrix.target }} (with non-required env)
-    runs-on: ubuntu-latest
-    if: github.event_name == 'release'
+  build:
+    name: ${{ matrix.platform.os_name }} with rust ${{ matrix.toolchain }}
+    runs-on: ${{ matrix.platform.os }}
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - target: x86_64-pc-windows-gnu
-            archive: zip
-          - target: x86_64-unknown-linux-musl
-            archive: tar.gz
-          - target: x86_64-apple-darwin
-            archive: zip
-          - target: wasm32-wasi
-            archive: zip tar.gz
+        platform:
+          - os_name: Linux-aarch64
+            os: ubuntu-20.04
+            target: aarch64-unknown-linux-musl
+            bin: arpsg-linux-arm64
+          - os_name: Linux-x86_64
+            os: ubuntu-20.04
+            target: x86_64-unknown-linux-gnu
+            bin: arpsg-linux-amd64
+          - os_name: Windows-x86_64
+            os: windows-latest
+            target: x86_64-pc-windows-msvc
+            bin: arpsg-amd64.exe
+          - os_name: macOS-x86_64
+            os: macOS-latest
+            target: x86_64-apple-darwin
+            bin: arpsg-darwin-amd64
+          - os_name: macOS-aarch64
+            os: macOS-latest
+            target: aarch64-apple-darwin
+            bin: arpsg-darwin-arm64
+        toolchain:
+          - stable
     steps:
-      - uses: actions/checkout@master
-      - name: Compile and release
-        uses: rust-build/rust-build.action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v3
+      - name: Build binary
+        uses: houseabsolute/actions-rust-cross@v0
         with:
-          RUSTTARGET: ${{ matrix.target }}
-          ARCHIVE_TYPES: ${{ matrix.archive }}
-          MINIFY: "yes"
-  release_without_not_required:
-    name: release ${{ matrix.target }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        target: [x86_64-unknown-linux-musl]
-    steps:
-      - uses: actions/checkout@master
-      - name: Compile and release
-        uses: rust-build/rust-build.action@master
+          command: "build"
+          target: ${{ matrix.platform.target }}
+          toolchain: ${{ matrix.toolchain }}
+          args: "--locked --release"
+          strip: true
+      - name: Rename binary (linux and macos)
+        run: mv target/${{ matrix.platform.target }}/release/arpsg target/${{ matrix.platform.target }}/release/${{ matrix.platform.bin }}
+        if: matrix.platform.os_name != 'Windows-x86_64'
+      - name: Rename binary (windows)
+        run: mv target/${{ matrix.platform.target }}/release/arpsg.exe target/${{ matrix.platform.target }}/release/${{ matrix.platform.bin }}
+        if: matrix.platform.os_name == 'Windows-x86_64'
+      - name: Generate SHA-256
+        run: shasum -a 256 target/${{ matrix.platform.target }}/release/${{ matrix.platform.bin }} | cut -d ' ' -f 1 > target/${{ matrix.platform.target }}/release/${{ matrix.platform.bin }}.sha256
+      - name: Release binary and SHA-256 checksum to GitHub
+        uses: softprops/action-gh-release@v1
         with:
-          RUSTTARGET: ${{ matrix.target }}
-          UPLOAD_MODE: none
-      - name: Checkout output
-        run: ls -laR
+          files: |
+            target/${{ matrix.platform.target }}/release/${{ matrix.platform.bin }}
+            target/${{ matrix.platform.target }}/release/${{ matrix.platform.bin }}.sha256
