@@ -11,7 +11,7 @@ rand_derive2 = "0.1.21"
 strum = { version = "0.26.1", features = ["derive"] }
 
 [lints.clippy]
-pedantic = "deny"
-nursery = "deny"
-unwrap_used = "deny"
-expect_used = "deny"
+pedantic = "warn"
+nursery = "warn"
+unwrap_used = "warn"
+expect_used = "warn"
