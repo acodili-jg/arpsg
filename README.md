@@ -20,6 +20,10 @@ Following is the documentation for
 
 ## Building
 
+> For details on cloning this repository:    
+> https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
+---
+
 Checks the project for mistakes with clippy:
 ```sh
 cargo clippy
@@ -35,7 +39,7 @@ Runs tests on the project:
 cargo test
 ```
 
-Creates and run a debug field of the project:
+Creates and run a debug build of the project:
 ```sh
 cargo run
 ```
