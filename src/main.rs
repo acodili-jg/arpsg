@@ -3,22 +3,42 @@ use std::{
     io::{stdin, BufRead},
 };
 
+const VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
+
 fn main() -> std::io::Result<()> {
-    println!("Another Rock Paper Scissors Game 0.1.0");
-    println!("Choose your weapon: rock, paper, or scissors.");
-
-    let user_wpn = read_weapon()?;
-    let opnt_wpn = rand::random();
-
-    match user_wpn.cmp(&opnt_wpn) {
-        Ordering::Less => println!("Your {user_wpn} lost to your opponent's {opnt_wpn}!"),
-        Ordering::Equal => println!("It's a draw!"),
-        Ordering::Greater => println!("Your {user_wpn} won to your opponent's {opnt_wpn}!"),
-    };
-
+    print_header();
+    let winning_result = play_while_tied()?;
+    display_placings(winning_result);
+    println!();
     Ok(())
 }
 
+#[inline]
+fn print_header() {
+    match VERSION {
+        Some(version) => println!("Another Rock Paper Scissors Game {version}"),
+        None => println!("Another Rock Paper Scissors Game"),
+    };
+}
+
+#[inline]
+fn play_while_tied() -> std::io::Result<Result<Weapon, Weapon>> {
+    Ok(loop {
+        println!("Choose your weapon: rock, paper, or scissors.");
+        let opnt_wpn = rand::random();
+        let user_wpn = read_weapon()?;
+        match user_wpn.cmp(&opnt_wpn) {
+            Ordering::Greater => break Ok(opnt_wpn),
+            Ordering::Less => break Err(opnt_wpn),
+            Ordering::Equal => {
+                println!("It's a draw!");
+                println!();
+            }
+        };
+    })
+}
+
+#[inline]
 fn read_weapon() -> std::io::Result<Weapon> {
     let mut buffer = String::new();
     loop {
@@ -28,6 +48,14 @@ fn read_weapon() -> std::io::Result<Weapon> {
             Err(_) => buffer.clear(),
         };
     }
+}
+
+#[inline]
+fn display_placings(winning_result: Result<Weapon, Weapon>) {
+    match winning_result {
+        Ok(opnt_wpn) => println!("You won against your opponent's {opnt_wpn}!"),
+        Err(opnt_wpn) => println!("You lost to your opponent's {opnt_wpn}!"),
+    };
 }
 
 #[derive(
