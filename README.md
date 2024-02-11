@@ -7,15 +7,15 @@ written in Rust.
 
 Following is the documentation for
 <abbr title="Another Rock Paper Scissors Game">ARPSG</abbr>
-[v0.1.0](https://github.com/acodili-jg/arpsg/releases/tag/v0.1.0):
+[v0.2.0](https://github.com/acodili-jg/arpsg/releases/tag/v0.2.0):
 
 ### Gameplay
 
- 1. The program asks the player between `rock`, `paper`, and `scissors`
-    (case-insensitive). It will keep asking until a valid option is entered.
- 2. The program runs the Random Number Generator (RNG) to choose as well.
- 3. The outputs from `1.` and `2.` are compared to determine a win, draw, or
-    loss.
+ 1. The program runs a Random Number Generator (<abbr>RNG</abbr>) to choose between `rock`,
+    `paper`, and `scissors`.
+ 2. The program asks the player to choose too.
+ 3. The choices made from `1.` and `2.` are then compared to determine if the
+    player won or lost; in case of a tie, the program starts back to `1.`.
  4. The program terminates.
 
 ## Building
